@@ -1,6 +1,9 @@
+import createNearbyCoordinates from "../helper/createNearbyCoordinates"
+
 const Ship = (name, pos) => {
     const shipName = name;
     let position = pos;
+    let nearbyCoordinates = createNearbyCoordinates(pos);
     let hitted = [];
 
     const hit = (field) =>{
@@ -23,7 +26,11 @@ const Ship = (name, pos) => {
         return shipName
     }
 
-    return {hit, isSunk, getHits, getPosition, getName}
+    const getNearbyCoordinates = () => {
+        return nearbyCoordinates
+    }
+
+    return {hit, isSunk, getHits, getPosition, getName, getNearbyCoordinates}
 }
 
 export default Ship;

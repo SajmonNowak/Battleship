@@ -1,7 +1,7 @@
-import Gameboard from "../factories/Gameboard";
+import Gameboard from "../factories/GameboardFactory";
 import Ship from "../factories/Ship";
 
-describe("Gameboard functions", () => {
+describe("GameboardFactory functions", () => {
   let testBoard;
 
   beforeEach(() => {
