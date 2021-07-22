@@ -1,4 +1,6 @@
 const GameboardFactory = (ships) => {
+  let shipsOnBoard = []
+
   const placeShips = (shipArray) => {
     shipArray.forEach((ship) => placeShip(ship));
   };
@@ -6,6 +8,7 @@ const GameboardFactory = (ships) => {
   const placeShip = (ship) => {
     let coordinates = ship.getPosition();
     coordinates.every((coordinate) => (board[coordinate].hasShip = ship));
+    shipsOnBoard.push(ship);
   };
 
   const init = () => {
@@ -30,6 +33,10 @@ const GameboardFactory = (ships) => {
   const getField = (coordinate) => {
     return board[coordinate];
   };
+
+  const getShips = () => {
+    return shipsOnBoard;
+  }
 
   const receiveAttack = (coordinate) => {
     const ship = board[coordinate].hasShip;
@@ -59,6 +66,7 @@ const GameboardFactory = (ships) => {
     placeShip,
     getBoard,
     getField,
+    getShips,
     receiveAttack,
     checkIfSunk,
     checkIfAllDestroyed,

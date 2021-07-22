@@ -13,7 +13,7 @@ const GameWindow = () => {
     <div>
       <div>{state.message}</div>
       <GameContainer>
-        {state.phase === "Selection" && <ShipSelectionWindow />}
+        {state.phase === "Selection" && <ShipSelectionWindow/>}
         {state.phase === "Play" && (
           <React.Fragment>
             <Gameboard player={state.players.player} />

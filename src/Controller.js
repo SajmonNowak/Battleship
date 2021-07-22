@@ -1,4 +1,4 @@
-import Ship from "./factories/Ship";
+import Ship from "./factories/ShipFactory";
 import Player from "./factories/Player";
 import AI from "./factories/AI";
 import React, { createContext, useReducer } from "react";
