@@ -2,12 +2,16 @@ import styled from "styled-components";
 
 const ShipSelectionUI = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
 
-  .shipCell {
+
+  .shipSelectionCell {
+    background-color: red;
     width: 50px;
     height: 50px;
     border: 1px solid;
+    cursor: move;
   }
 
   .shipList {
@@ -30,6 +34,26 @@ const ShipSelectionUI = styled.div`
     opacity: 0.5;
     background-color: "yellow";
   }
+
+  .mainUI {
+    display: flex;
+    justify-content: center;
+  }
+
+  .playButton {
+    margin-top: 50px;;
+    width: 400px;
+    height: 50px;
+  
+    &.deactivated {
+      background-color: grey;
+    }
+
+    &.active {
+      background-color: lightblue;
+    }
+  }
+
 `;
 
 export default ShipSelectionUI;

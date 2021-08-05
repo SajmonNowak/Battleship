@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import GameboardFactory from "../factories/GameboardFactory";
 import ShipSelectionUI from "./style/ShipSelectionUI";
 import SelectionCell from "./SelectionCell";
@@ -6,13 +6,21 @@ import shipList from "../Data/shipTypes";
 import Ship from "./Ship";
 import ShipFactory from "../factories/ShipFactory";
 import DNDProvider from "./DNDProvider";
+import { store, ACTIONS } from "../Controller";
 
 const ShipSelectionWindow = () => {
+  const { state, dispatch } = useContext(store);
   const [selectionBoard, setSelectionBoard] = useState(GameboardFactory());
   const [helpState, setHelpState] = useState(0);
+  const [active, setActive] = useState(false);
 
   const setBoard = (newBoard) => {
     setSelectionBoard(newBoard);
+
+    if(newBoard.getShips().length === 2){
+      setActive(true);
+    }
+
     setHelpState(helpState + 1);
   };
 
@@ -31,20 +39,40 @@ const ShipSelectionWindow = () => {
   };
 
   const createShipList = () => {
-    return shipList.map((ship, index) => {
-      const newShip = ShipFactory(ship.name, [], ship.length);
+    return shipList.map((shipType, index) => {
+      let shipArray = [];
+
+      for (let i = 0; i < shipType.amount; i++) {
+        shipArray.push(
+          ShipFactory(shipType.name, [], shipType.length, index * 10 + i)
+        );
+      }
+
       return (
-        <Ship key={index} ship={newShip} number={ship.number} id={index}></Ship>
+        <Ship key={index} shipArray={shipArray} shipData={shipType}></Ship>
       );
     });
   };
 
+  const startGame = () => {
+    dispatch({
+      type: ACTIONS.SET_PLAYERS,
+      payload: selectionBoard.getShips(),
+    })
+  }
+
   return (
     <DNDProvider>
       <ShipSelectionUI>
+        <div className="mainUI">
         <div className="gameBoard">{createSelectionGameboard()}</div>
         <div className="shipList">{createShipList()}</div>
+        </div>
+        
+        <button onClick={active ? startGame : undefined} className={`playButton ${active ? "active" : "deactivated"}`}>Play</button>
+         
       </ShipSelectionUI>
+      
     </DNDProvider>
   );
 };

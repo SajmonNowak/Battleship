@@ -23,7 +23,7 @@ export const GameContainer = styled.div`
   }
 
   .waterCell {
-      background-color: blue;
+      background-color:#62b4cf;
   }
 
   .shipCell {

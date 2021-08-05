@@ -42,7 +42,7 @@ const createNearbyCoordinates = (pos) => {
     if (type.includes("top")) {
       nearbyCoordinates = nearbyCoordinates.filter((e) => !getRevTop(coordinate).includes(e))
     }
-    if (type.includes("bottom")) {
+    if (type.includes("bot")) {
         nearbyCoordinates = nearbyCoordinates.filter((e) => !getRevBottom(coordinate).includes(e))
     }
     if (type.includes("left")) {

@@ -8,7 +8,7 @@ const Cell = ({ field, coordinates, belongsTo }) => {
     const { state, dispatch } = useContext(store);
     const player = state.players.player;
     const ai = state.players.ai;
-    const aiBoard = ai.getBoard();
+    const aiBoard = ai.getGameboard();
 
     const handleShot = () => {
         if ( shot === false){

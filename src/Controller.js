@@ -1,7 +1,7 @@
 import Ship from "./factories/ShipFactory";
 import Player from "./factories/Player";
-import AI from "./factories/AI";
 import React, { createContext, useReducer } from "react";
+import createRandomShips from "./helper/createRandomShips";
 
 const store = createContext();
 const { Provider } = store;
@@ -12,13 +12,21 @@ const ACTIONS = {
   RESET_Message: "Reset message",
   RESTART_GAME: "Restart game",
   CHANGE_PHASE: "Change game phase",
-  SET_WINNER: "set the winner of the game"
+  SET_WINNER: "set the winner of the game",
 };
 
 const reducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
     case ACTIONS.SET_PLAYERS: {
+      return {
+        ...state,
+        phase: "Play",
+        players: {
+          player: Player("Human", [...payload]),
+          ai: Player("AI", createRandomShips()),
+        },
+      };
     }
     case ACTIONS.SET_MESSAGE: {
       return {
@@ -34,7 +42,7 @@ const reducer = (state, action) => {
     }
     case ACTIONS.RESTART_GAME: {
       return {
-        phase: "",
+        phase: "Selection",
         players: {
           player: "",
           ai: "",
@@ -47,30 +55,23 @@ const reducer = (state, action) => {
       return {
         ...state,
         phase: payload,
-      }
+      };
     }
-    case ACTIONS.SET_WINNER:{
+    case ACTIONS.SET_WINNER: {
       return {
         ...state,
         winner: payload,
-      }
+      };
     }
+    default:
+      return state;
   }
 };
 
 const Controller = ({ children }) => {
   const initialState = {
-    phase:"Selection",
-    players: {
-      player: Player("Human", [
-        Ship("carrier", [22, 23, 24, 25]),
-        Ship("destroyer", [0]),
-      ]),
-      ai: Player("AI", [
-        Ship("carrier", [1, 2, 3, 4]),
-        Ship("destroyer", [22, 23]),
-      ]),
-    },
+    phase: "Selection",
+    players: {},
     message: "",
     winner: "",
   };

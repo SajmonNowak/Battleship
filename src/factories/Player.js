@@ -1,5 +1,4 @@
-import GameboardFactory from "./GameboardFactory";
-import Ship from "./ShipFactory";
+import GameboardFactory from "./GameboardFactory"; 
 
 const Player = (playerType, shipSelection) => {
   let type = playerType;
@@ -14,26 +13,26 @@ const Player = (playerType, shipSelection) => {
   };
 
   const increaseScore = () => {
-      score++
-  }
+    score++;
+  };
 
   const getScore = () => {
-      return score;
-  }
+    return score;
+  };
 
-  const getBoard = () => {
-      return playerGameboard;
-  }
+  const getGameboard = () => {
+    return playerGameboard;
+  };
 
   const getShips = () => {
-      return ships;
-  }
+    return ships;
+  };
 
   const getType = () => {
     return type;
-  }
+  };
 
-  return {attack, increaseScore, getScore, getBoard, getShips, getType}
+  return { attack, increaseScore, getScore, getGameboard, getShips, getType };
 };
 
 export default Player;
