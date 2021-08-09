@@ -15,7 +15,7 @@ const playerTurn = (player, ai, coordinate, dispatch) => {
 };
 
 const checkIfFatal = (board, coordinate, dispatch) => {
-  if (board.checkIfSunk(coordinate)) {
+  if (board.getField(coordinate).hasShip.isSunk()) {
     dispatch({
       type: ACTIONS.SET_MESSAGE,
       payload: "You destroyed enemy's Ship",
@@ -26,15 +26,13 @@ const checkIfFatal = (board, coordinate, dispatch) => {
 
 const checkIfWin = (board, player, dispatch) => {
   if (board.checkIfAllDestroyed()) {
-    const winner = player.getType();
-    console.log(winner);
     dispatch({
       type: ACTIONS.CHANGE_PHASE,
       payload: "End",
     });
     dispatch({
       type: ACTIONS.SET_WINNER,
-      payload: winner,
+      payload: "player",
     });
   }
 };

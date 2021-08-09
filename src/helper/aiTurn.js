@@ -1,3 +1,4 @@
+import { ACTIONS } from "../Controller";
 import nextTurn from "./nextTurn";
 
 let didHit = false;
@@ -11,7 +12,11 @@ const aiTurn = (player, ai, dispatch) => {
     hitRandomPosition(Gameboard);
   }
 
-  nextTurn(didHit ? "ai" : "player", player,ai, dispatch);
+  if (checkIfWin(Gameboard, dispatch)) {
+    return;
+  } else {
+    nextTurn(didHit ? "ai" : "player", player, ai, dispatch);
+  }
 };
 
 const hittedShipOnBoard = (Gameboard) => {
@@ -126,6 +131,20 @@ const updateHitted = (Gameboard, field) => {
     didHit = true;
   } else {
     didHit = false;
+  }
+};
+
+const checkIfWin = (Gameboard, dispatch) => {
+  if (Gameboard.checkIfAllDestroyed()) {
+    dispatch({
+      type: ACTIONS.CHANGE_PHASE,
+      payload: "End",
+    });
+    dispatch({
+      type: ACTIONS.SET_WINNER,
+      payload: "Computer",
+    });
+    return true;
   }
 };
 

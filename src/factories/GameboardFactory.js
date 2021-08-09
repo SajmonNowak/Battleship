@@ -49,28 +49,18 @@ const GameboardFactory = (ships) => {
     board[coordinate].isHitted = true;
     if (ship) {
       ship.hit(coordinate);
+      if(ship.isSunk()){
+        shipsDestroyed ++
+      }
     }
   };
 
-  const checkIfSunk = (coordinate) => {
-    if (getField(coordinate).hasShip.isSunk()) {
-      shipsDestroyed++;
-      return true;
-    }
-    return false;
-  };
 
   const checkIfAllDestroyed = () => {
     if (shipCount === shipsDestroyed) {
       return true;
     }
   };
-
-  // const removeShip = (ship) => {
-  //   let pos = ship.getPosition();
-  //   pos.forEach((coordinate) => (board[coordinate].hasShip = false));
-  //   shipsOnBoard.filter((e) => e.getId() === ship.id);
-  // };
 
   return {
     placeShips,
@@ -79,9 +69,7 @@ const GameboardFactory = (ships) => {
     getField,
     getShips,
     receiveAttack,
-    checkIfSunk,
     checkIfAllDestroyed,
-    //removeShip,
   };
 };
 
