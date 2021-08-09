@@ -38,17 +38,45 @@ const hitRandomPosition = (Gameboard, dispatch) => {
       unHittedFields.push(index);
     }
   });
-  const randomNumber = Math.floor(Math.random() * (unHittedFields.length - 1));
-  Gameboard.receiveAttack(unHittedFields[randomNumber]);
-
-  updateHitted(Gameboard, unHittedFields[randomNumber]);
+  const attackCoordinate = getRandomPosition(Gameboard, unHittedFields)
+  Gameboard.receiveAttack(attackCoordinate);
+  updateHitted(Gameboard, attackCoordinate);
 };
+
+const getRandomPosition = (Gameboard, unHittedFields) => {
+let randomNumber = Math.floor(Math.random() * (unHittedFields.length - 1));
+let pos = unHittedFields[randomNumber];
+if(isLonelyField(Gameboard, unHittedFields, pos)){
+    return getRandomPosition(Gameboard, unHittedFields)
+}
+return pos
+}
+
+const isLonelyField = (Gameboard, unHittedFields, pos) => {
+    let nextCells = [-10,-1,+1,+10]
+    if(pos < 10){
+        nextCells = [-1,+1,+10]
+    }
+    if (pos >89){
+        nextCells = [-10,-1,+1]
+    }
+    if (pos=== 0){
+        nextCells = [+1,+10]
+    } 
+    if (pos === 99){
+        nextCells = [-1,-10]
+    }
+
+    if(nextCells.every((nextCellPos) => Gameboard.getField(pos+nextCellPos).isHitted)){
+        return true
+    }
+    return false;
+}
 
 const hitNaerbyFieldOfShip = (Gameboard, dispatch) => {
   const hittedShip = hittedShipOnBoard(Gameboard);
   const hittedPositions = hittedShip.getHits().sort((a, b) => a - b);
   const alignment = hittedShip.getAlignment();
-  console.log(hittedPositions);
   if (alignment === "horizontal") {
     attackHorizontally(Gameboard, hittedPositions, alignment, dispatch);
   } else {
@@ -60,7 +88,6 @@ const hitNaerbyFieldOfShip = (Gameboard, dispatch) => {
 const attackHorizontally = (Gameboard, hittedPositions, alignment) => {
   const posBeforeHit = hittedPositions[0] - 1;
   const posAfterHit = hittedPositions[hittedPositions.length - 1] + 1;
-  console.log(posBeforeHit);
   if (isValidAttack(posBeforeHit, Gameboard, alignment)) {
     Gameboard.receiveAttack(posBeforeHit);
     updateHitted(Gameboard, posBeforeHit);
