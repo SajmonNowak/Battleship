@@ -67,7 +67,7 @@ const ShipSelectionWindow = () => {
     if (selectionBoard.getShips().length === 6) {
       setActive(true);
     }
-  }, [helpState]);
+  });
 
   return (
     <DNDProvider>

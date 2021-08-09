@@ -1,4 +1,3 @@
-import Ship from "./factories/ShipFactory";
 import Player from "./factories/Player";
 import React, { createContext, useReducer } from "react";
 import createRandomShips from "./helper/createRandomShips";
@@ -13,6 +12,7 @@ const ACTIONS = {
   RESTART_GAME: "Restart game",
   CHANGE_PHASE: "Change game phase",
   SET_WINNER: "set the winner of the game",
+  SET_TURN: "set who can play this turn"
 };
 
 const reducer = (state, action) => {
@@ -47,6 +47,7 @@ const reducer = (state, action) => {
           player: "",
           ai: "",
         },
+        turn: "player",
         message: "",
         winner: "",
       };
@@ -63,6 +64,12 @@ const reducer = (state, action) => {
         winner: payload,
       };
     }
+    case ACTIONS.SET_TURN: {
+      return {
+        ...state,
+        turn: payload
+      }
+    }
     default:
       return state;
   }
@@ -72,6 +79,7 @@ const Controller = ({ children }) => {
   const initialState = {
     phase: "Selection",
     players: {},
+    turn:"player",
     message: "",
     winner: "",
   };
