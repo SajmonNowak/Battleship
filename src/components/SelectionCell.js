@@ -41,19 +41,14 @@ const ShipSelectionCell = ({ field, coordinates, board, setBoard }) => {
         item.ship.getLength()
       );
 
-      return isValidPosition(
-        pos,
-        board,
-        item.ship.getAlignment(),
-        item.ship
-      );
+      return isValidPosition(pos, board, item.ship.getAlignment(), item.ship);
     },
     drop: (item, monitor) => {
       let pos = calculateNewPosition(
         item.ship.getAlignment(),
         item.ship.getLength()
       );
-  
+
       item.ship.setPosition(pos);
       board.placeShip(item.ship);
       setBoard(board);
@@ -64,7 +59,7 @@ const ShipSelectionCell = ({ field, coordinates, board, setBoard }) => {
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
-      canDrop: !!monitor.canDrop()
+      canDrop: !!monitor.canDrop(),
     }),
   });
 
@@ -104,7 +99,7 @@ const ShipSelectionCell = ({ field, coordinates, board, setBoard }) => {
       }`}
       style={{
         opacity: isDragging ? 0.5 : 1,
-        backgroundColor: !canDrop ? "" : isOver ? "green" : ""
+        backgroundColor: !canDrop ? "" : isOver ? "green" : "",
       }}
       onClick={field.hasShip ? rotateShip : undefined}
     >

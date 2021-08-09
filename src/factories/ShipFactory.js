@@ -9,6 +9,7 @@ const ShipFactory = (name, pos, shipLength, _id) => {
   let nearbyCoordinates = createNearbyCoordinates(pos);
   let hitted = [];
   let id = _id;
+
   const hit = (field) => {
     hitted.push(field);
   };
@@ -54,7 +55,7 @@ const ShipFactory = (name, pos, shipLength, _id) => {
     return alignment;
   };
 
-  function rotate (board) {
+  function rotate(board) {
     const fixedPos = position[0];
     let newPos;
 
@@ -68,8 +69,14 @@ const ShipFactory = (name, pos, shipLength, _id) => {
     if (isValidPosition(newPos, board, alignment, this)) {
       position = newPos;
       nearbyCoordinates = createNearbyCoordinates(position);
-    } 
-  };
+    } else {
+      if (alignment === "horizontal") {
+        alignment = "vertical";
+      } else {
+        alignment = "horizontal";
+      }
+    }
+  }
 
   return {
     hit,

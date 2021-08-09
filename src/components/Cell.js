@@ -8,13 +8,11 @@ const Cell = ({ field, coordinates, belongsTo }) => {
     const { state, dispatch } = useContext(store);
     const player = state.players.player;
     const ai = state.players.ai;
-    const aiBoard = ai.getGameboard();
 
     const handleShot = () => {
         if ( shot === false){
             dispatch({type: ACTIONS.RESET_Message})
             humanTurn(player, ai, coordinates, dispatch);
-            aiBoard.receiveAttack(coordinates);
             setShot(true)
         }
     }

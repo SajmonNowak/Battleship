@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import GameboardFactory from "../factories/GameboardFactory";
 import ShipSelectionUI from "./style/ShipSelectionUI";
 import SelectionCell from "./SelectionCell";
@@ -7,6 +7,7 @@ import Ship from "./Ship";
 import ShipFactory from "../factories/ShipFactory";
 import DNDProvider from "./DNDProvider";
 import { store, ACTIONS } from "../Controller";
+import createRandomShips from "../helper/createRandomShips";
 
 const ShipSelectionWindow = () => {
   const { state, dispatch } = useContext(store);
@@ -16,10 +17,6 @@ const ShipSelectionWindow = () => {
 
   const setBoard = (newBoard) => {
     setSelectionBoard(newBoard);
-
-    if(newBoard.getShips().length === 2){
-      setActive(true);
-    }
 
     setHelpState(helpState + 1);
   };
@@ -58,21 +55,35 @@ const ShipSelectionWindow = () => {
     dispatch({
       type: ACTIONS.SET_PLAYERS,
       payload: selectionBoard.getShips(),
-    })
-  }
+    });
+  };
+
+  const assignRandomShips = () => {
+    setSelectionBoard(GameboardFactory(createRandomShips()))
+    setHelpState(helpState+1)
+  };
+
+  useEffect(() => {
+    if (selectionBoard.getShips().length === 6) {
+      setActive(true);
+    }
+  }, [helpState]);
 
   return (
     <DNDProvider>
       <ShipSelectionUI>
         <div className="mainUI">
-        <div className="gameBoard">{createSelectionGameboard()}</div>
-        <div className="shipList">{createShipList()}</div>
+          <div className="gameBoard">{createSelectionGameboard()}</div>
+          <div className="shipList">{createShipList()}</div>
         </div>
-        
-        <button onClick={active ? startGame : undefined} className={`playButton ${active ? "active" : "deactivated"}`}>Play</button>
-         
+        <button onClick={assignRandomShips}>Random</button>
+        <button
+          onClick={active ? startGame : undefined}
+          className={`playButton ${active ? "active" : "deactivated"}`}
+        >
+          Play
+        </button>
       </ShipSelectionUI>
-      
     </DNDProvider>
   );
 };
