@@ -12,6 +12,15 @@ const GameboardFactory = (ships) => {
     shipsOnBoard.push(ship);
   };
 
+  const replaceShip = (ship, newPos) => {
+    let shipToReplace = getShips().find((e) => ship.getId() === e.getId())
+
+    shipToReplace.getPosition().forEach((pos) => board[pos].hasShip = false)
+    ship.setPosition(newPos)
+    newPos.forEach((coordinate) => (board[coordinate].hasShip = ship));
+
+  }
+
   
 
   const init = () => {
@@ -70,6 +79,7 @@ const GameboardFactory = (ships) => {
     getShips,
     receiveAttack,
     checkIfAllDestroyed,
+    replaceShip
   };
 };
 

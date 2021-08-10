@@ -15,9 +15,7 @@ const ShipSelectionWindow = () => {
   const [helpState, setHelpState] = useState(0);
   const [active, setActive] = useState(false);
 
-  const setBoard = (newBoard) => {
-    setSelectionBoard(newBoard);
-
+  const render = (newBoard) => {
     setHelpState(helpState + 1);
   };
 
@@ -29,7 +27,7 @@ const ShipSelectionWindow = () => {
           field={cell}
           coordinates={index}
           board={selectionBoard}
-          setBoard={setBoard}
+          render={render}
         />
       );
     });
@@ -59,15 +57,15 @@ const ShipSelectionWindow = () => {
   };
 
   const assignRandomShips = () => {
-    setSelectionBoard(GameboardFactory(createRandomShips()))
-    setHelpState(helpState+1)
+    setSelectionBoard(GameboardFactory(createRandomShips()));
+    setHelpState(helpState + 1);
   };
 
   useEffect(() => {
     if (selectionBoard.getShips().length === 6) {
       setActive(true);
     }
-  });
+  }, [selectionBoard.getShips().length]);
 
   return (
     <DNDProvider>

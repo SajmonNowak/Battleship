@@ -1,22 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDrop } from "react-dnd";
 import isValidPosition from "../helper/isValidPosition";
 import isNearbyField from "../helper/isNearbyField";
 import { useDrag } from "react-dnd";
 
-const ShipSelectionCell = ({ field, coordinates, board, setBoard }) => {
-  const [ship, setShip] = useState();
-  const removeOldPosition = () => {
-    const fields = board
-      .getBoard()
-      .filter((field) => field.hasShip)
-      .filter((field) => field.hasShip.getId() === ship.getId())
-      .filter(
-        (field) => !ship.getPosition().includes(board.getBoard().indexOf(field))
-      );
-
-    fields.forEach((field) => (field.hasShip = false));
-  };
+const ShipSelectionCell = ({ field, coordinates, board, render }) => {
 
   const calculateNewPosition = (alignment, length) => {
     let pos = [];
@@ -48,11 +36,15 @@ const ShipSelectionCell = ({ field, coordinates, board, setBoard }) => {
         item.ship.getAlignment(),
         item.ship.getLength()
       );
+        if(item.shipIsOnField !== undefined){
+          board.replaceShip(item.ship, pos)
+          console.log("replace")
+        } else {
+          item.ship.setPosition(pos);
+          board.placeShip(item.ship);
+        }
 
-      item.ship.setPosition(pos);
-      board.placeShip(item.ship);
-      setBoard(board);
-      setShip(item.ship);
+      render();
       if (item.changeNumber) {
         item.changeNumber();
       }
@@ -76,10 +68,6 @@ const ShipSelectionCell = ({ field, coordinates, board, setBoard }) => {
 
   let ref = drop;
 
-  if (ship) {
-    removeOldPosition();
-  }
-
   if (board.getField(coordinates).hasShip) {
     ref = drag;
   }
@@ -87,8 +75,8 @@ const ShipSelectionCell = ({ field, coordinates, board, setBoard }) => {
   const rotateShip = () => {
     let clickedShip = board.getField(coordinates).hasShip;
     clickedShip.rotate(board);
-    board.placeShip(clickedShip);
-    setBoard(board);
+    board.replaceShip(clickedShip, clickedShip.getPosition());
+    render()
   };
 
   return (

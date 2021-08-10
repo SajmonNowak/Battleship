@@ -67,7 +67,7 @@ const ShipFactory = (name, pos, shipLength, _id) => {
       alignment = "horizontal";
     }
     if (isValidPosition(newPos, board, alignment, this)) {
-      position = newPos;
+      board.replaceShip(this, newPos);
       nearbyCoordinates = createNearbyCoordinates(position);
     } else {
       if (alignment === "horizontal") {
