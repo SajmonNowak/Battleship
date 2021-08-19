@@ -38,31 +38,43 @@ const createNearbyCoordinates = (pos) => {
 
   pos.forEach((coordinate) => {
     let type = getType(coordinate);
-    nearbyCoordinates.push(...getRevTop(coordinate), ...getRevLeft(coordinate), ...getRevRight(coordinate), ...getRevBottom(coordinate));
+    nearbyCoordinates.push(
+      ...getRevTop(coordinate),
+      ...getRevLeft(coordinate),
+      ...getRevRight(coordinate),
+      ...getRevBottom(coordinate)
+    );
     if (type.includes("top")) {
-      nearbyCoordinates = nearbyCoordinates.filter((e) => !getRevTop(coordinate).includes(e))
+      nearbyCoordinates = nearbyCoordinates.filter(
+        (e) => !getRevTop(coordinate).includes(e)
+      );
     }
     if (type.includes("bot")) {
-        nearbyCoordinates = nearbyCoordinates.filter((e) => !getRevBottom(coordinate).includes(e))
+      nearbyCoordinates = nearbyCoordinates.filter(
+        (e) => !getRevBottom(coordinate).includes(e)
+      );
     }
     if (type.includes("left")) {
-        nearbyCoordinates = nearbyCoordinates.filter((e) => !getRevLeft(coordinate).includes(e))
+      nearbyCoordinates = nearbyCoordinates.filter(
+        (e) => !getRevLeft(coordinate).includes(e)
+      );
     }
     if (type.includes("right")) {
-        nearbyCoordinates = nearbyCoordinates.filter((e) => !getRevRight(coordinate).includes(e))
+      nearbyCoordinates = nearbyCoordinates.filter(
+        (e) => !getRevRight(coordinate).includes(e)
+      );
     }
-
   });
 
   const finalArray = [];
   nearbyCoordinates.forEach((e) => {
-       if(finalArray.includes(e) || pos.includes(e)){
-           return;
-       }
-        finalArray.push(e);
-       });
-       
-return finalArray;
+    if (finalArray.includes(e) || pos.includes(e)) {
+      return;
+    }
+    finalArray.push(e);
+  });
+
+  return finalArray;
 };
 
 export default createNearbyCoordinates;

@@ -27,7 +27,7 @@ const AI = (randomizedShipSelection) => {
 
   const getShips = () => {
     return ships;
-  }
+  };
 
   return { randomAttack, increaseScore, getScore, getBoard, getShips };
 };

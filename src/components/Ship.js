@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ShipCell from "./ShipCell";
 import { useDrag } from "react-dnd";
 
-const Ship = ({ shipArray, shipData }) => {
+const Ship = ({ shipArray, shipData, Gameboard }) => {
   const [number, setNumber] = useState(shipData.amount);
 
   const changeNumber = () => {
@@ -12,13 +12,19 @@ const Ship = ({ shipArray, shipData }) => {
   const [{ isDragging }, drag] = useDrag({
     type: "ship",
     item: {
-      ship: shipArray[number-1],
+      ship: shipArray[number - 1],
       changeNumber: changeNumber,
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   });
+
+  let refObject = drag;
+
+  if (number < 1 || Gameboard.getShips().length === 6) {
+    refObject = undefined;
+  }
 
   const createShip = () => {
     let x = [];
@@ -30,24 +36,17 @@ const Ship = ({ shipArray, shipData }) => {
     return x;
   };
 
-  let refObject = drag;
-
-  if( number < 1){
-    refObject = undefined
-  }
-
   return (
     <div>
       <div>{number}</div>
       <div
-        ref= {refObject}
+        ref={refObject}
         style={{
           opacity: isDragging ? 0.5 : 1,
           fontSize: 25,
           fontWeight: "bold",
-          cursor: "move",
         }}
-        className="ship"
+        className={`ship ${number > 0 ? "moveable" : ""}`}
       >
         {createShip()}
       </div>

@@ -7,9 +7,9 @@ const aiTurn = (player, ai, dispatch) => {
   const Gameboard = player.getGameboard();
 
   if (hittedShipOnBoard(Gameboard)) {
-    hitNaerbyFieldOfShip(Gameboard);
+    hitNaerbyFieldOfShip(Gameboard, dispatch);
   } else {
-    hitRandomPosition(Gameboard);
+    hitRandomPosition(Gameboard, dispatch);
   }
 
   if (checkIfWin(Gameboard, dispatch)) {
@@ -38,40 +38,44 @@ const hitRandomPosition = (Gameboard, dispatch) => {
       unHittedFields.push(index);
     }
   });
-  const attackCoordinate = getRandomPosition(Gameboard, unHittedFields)
+  const attackCoordinate = getRandomPosition(Gameboard, unHittedFields);
   Gameboard.receiveAttack(attackCoordinate);
-  updateHitted(Gameboard, attackCoordinate);
+  updateHitted(Gameboard, attackCoordinate, dispatch);
 };
 
 const getRandomPosition = (Gameboard, unHittedFields) => {
-let randomNumber = Math.floor(Math.random() * (unHittedFields.length - 1));
-let pos = unHittedFields[randomNumber];
-if(isLonelyField(Gameboard, unHittedFields, pos)){
-    return getRandomPosition(Gameboard, unHittedFields)
-}
-return pos
-}
+  let randomNumber = Math.floor(Math.random() * (unHittedFields.length - 1));
+  let pos = unHittedFields[randomNumber];
+  if (isLonelyField(Gameboard, unHittedFields, pos)) {
+    return getRandomPosition(Gameboard, unHittedFields);
+  }
+  return pos;
+};
 
 const isLonelyField = (Gameboard, unHittedFields, pos) => {
-    let nextCells = [-10,-1,+1,+10]
-    if(pos < 10){
-        nextCells = [-1,+1,+10]
-    }
-    if (pos >89){
-        nextCells = [-10,-1,+1]
-    }
-    if (pos=== 0){
-        nextCells = [+1,+10]
-    } 
-    if (pos === 99){
-        nextCells = [-1,-10]
-    }
+  let nextCells = [-10, -1, +1, +10];
+  if (pos < 10) {
+    nextCells = [-1, +1, +10];
+  }
+  if (pos > 89) {
+    nextCells = [-10, -1, +1];
+  }
+  if (pos === 0) {
+    nextCells = [+1, +10];
+  }
+  if (pos === 99) {
+    nextCells = [-1, -10];
+  }
 
-    if(nextCells.every((nextCellPos) => Gameboard.getField(pos+nextCellPos).isHitted)){
-        return true
-    }
-    return false;
-}
+  if (
+    nextCells.every(
+      (nextCellPos) => Gameboard.getField(pos + nextCellPos).isHitted
+    )
+  ) {
+    return true;
+  }
+  return false;
+};
 
 const hitNaerbyFieldOfShip = (Gameboard, dispatch) => {
   const hittedShip = hittedShipOnBoard(Gameboard);
@@ -82,31 +86,36 @@ const hitNaerbyFieldOfShip = (Gameboard, dispatch) => {
   } else {
     attackVertically(Gameboard, hittedPositions, alignment, dispatch);
   }
-  handlePlayerShipDestroyed(Gameboard, hittedShip);
+  handlePlayerShipDestroyed(Gameboard, hittedShip, dispatch);
 };
 
-const attackHorizontally = (Gameboard, hittedPositions, alignment) => {
+const attackHorizontally = (
+  Gameboard,
+  hittedPositions,
+  alignment,
+  dispatch
+) => {
   const posBeforeHit = hittedPositions[0] - 1;
   const posAfterHit = hittedPositions[hittedPositions.length - 1] + 1;
   if (isValidAttack(posBeforeHit, Gameboard, alignment)) {
     Gameboard.receiveAttack(posBeforeHit);
-    updateHitted(Gameboard, posBeforeHit);
+    updateHitted(Gameboard, posBeforeHit, dispatch);
   } else {
     Gameboard.receiveAttack(posAfterHit);
-    updateHitted(Gameboard, posAfterHit);
+    updateHitted(Gameboard, posAfterHit, dispatch);
   }
 };
 
-const attackVertically = (Gameboard, hittedPositions, alignment) => {
+const attackVertically = (Gameboard, hittedPositions, alignment, dispatch) => {
   const posBeforeHit = hittedPositions[0] - 10;
   const posAfterHit = hittedPositions[hittedPositions.length - 1] + 10;
 
   if (isValidAttack(posBeforeHit, Gameboard, alignment)) {
     Gameboard.receiveAttack(posBeforeHit);
-    updateHitted(Gameboard, posBeforeHit);
+    updateHitted(Gameboard, posBeforeHit, dispatch);
   } else {
     Gameboard.receiveAttack(posAfterHit);
-    updateHitted(Gameboard, posAfterHit);
+    updateHitted(Gameboard, posAfterHit, dispatch);
   }
 };
 
@@ -142,9 +151,13 @@ const inBreak = (coordinate, alignment) => {
   return false;
 };
 
-const handlePlayerShipDestroyed = (Gameboard, ship) => {
+const handlePlayerShipDestroyed = (Gameboard, ship, dispatch) => {
   if (ship.isSunk()) {
     revealNearbyCells(Gameboard, ship.getPosition()[0]);
+    dispatch({
+      type: ACTIONS.SET_MESSAGE,
+      payload: "Our Ship is no more Captain!",
+    });
   }
 };
 
@@ -153,11 +166,19 @@ const revealNearbyCells = (board, coordinate) => {
   ship.getNearbyCoordinates().forEach((e) => board.receiveAttack(e));
 };
 
-const updateHitted = (Gameboard, field) => {
+const updateHitted = (Gameboard, field, dispatch) => {
   if (Gameboard.getField(field).hasShip) {
     didHit = true;
+    dispatch({
+      type: ACTIONS.SET_MESSAGE,
+      payload: "Enemy hitted your Ship!",
+    });
   } else {
     didHit = false;
+    dispatch({
+      type: ACTIONS.SET_MESSAGE,
+      payload: "Enemy missed! This is our chance Captain!",
+    });
   }
 };
 

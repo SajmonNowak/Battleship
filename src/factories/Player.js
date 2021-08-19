@@ -1,4 +1,4 @@
-import GameboardFactory from "./GameboardFactory"; 
+import GameboardFactory from "./GameboardFactory";
 
 const Player = (playerType, shipSelection) => {
   let type = playerType;

@@ -6,9 +6,10 @@ const isValidPosition = (pos, board, alignment, ship) => {
 
   controlBoard.placeShips(board.getShips());
 
-
-  if (ship !== undefined ) {
-    ship.getPosition().forEach((coord) => (controlBoard.getField(coord).hasShip = false));
+  if (ship !== undefined) {
+    ship
+      .getPosition()
+      .forEach((coord) => (controlBoard.getField(coord).hasShip = false));
   }
 
   if (

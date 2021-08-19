@@ -5,15 +5,6 @@ const ShipSelectionUI = styled.div`
   flex-direction: column;
   align-items: center;
 
-
-  .shipSelectionCell {
-    background-color: red;
-    width: 50px;
-    height: 50px;
-    border: 1px solid;
-    cursor: move;
-  }
-
   .shipList {
     margin-left: 50px;
   }
@@ -22,6 +13,10 @@ const ShipSelectionUI = styled.div`
     display: flex;
     flex-direction: row;
     margin: 20px;
+  }
+
+  .moveable {
+    cursor: move;
   }
 
   .isOver {
@@ -40,20 +35,36 @@ const ShipSelectionUI = styled.div`
     justify-content: center;
   }
 
+  .buttonContainer {
+    margin: 0 auto;
+    margin-top: 50px;
+    display: flex;
+  }
+
+  .randomButton {
+    width: 150px;
+  }
+
   .playButton {
-    margin-top: 50px;;
+    margin-left: 50px;
     width: 400px;
     height: 50px;
-  
+    font-weight: bold;
+
     &.deactivated {
       background-color: grey;
     }
 
     &.active {
-      background-color: lightblue;
+      &:hover {
+        background-color: #ff8800;
+      }
+    }
+
+    &:hover {
+      background-color: none;
     }
   }
-
 `;
 
 export default ShipSelectionUI;

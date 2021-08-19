@@ -2,10 +2,14 @@ import styled from "styled-components";
 
 export const GameContainer = styled.div`
   position: relative;
-  border: 1px solid;
   padding: 50px;
-  display: flex;
-  justify-content: space-around;
+
+  .gameboardsContainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+  }
 
   .gameBoard {
     width: 500px;
@@ -14,30 +18,25 @@ export const GameContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     box-sizing: content-box;
+    border: 3px solid black;
   }
 
-  .cell {
-    width: 50px;
+  .button {
+    font-size: 20px;
+    background-color: #e67a00;
+    font-weight: bold;
     height: 50px;
-    border: 1px solid;
+    border: 3px solid black;
+
+    &:hover {
+      background-color: #ff8800;
+    }
   }
 
-  .waterCell {
-      background-color:#62b4cf;
+  @media (max-width: 1135px) {
+    .gameBoard {
+      width: 250px;
+      height: 250px;
+    }
   }
-
-  .shipCell {
-      background-color: red;
-  }
-
-  .shotCell {
-      font-size: 50px;
-      text-align: center;
-      color: white;
-  }
-
-  .shipCell .shotCell {
-      color: black;
-  }
-
 `;

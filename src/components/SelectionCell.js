@@ -3,9 +3,9 @@ import { useDrop } from "react-dnd";
 import isValidPosition from "../helper/isValidPosition";
 import isNearbyField from "../helper/isNearbyField";
 import { useDrag } from "react-dnd";
+import { CellContainer } from "./style/CellContainer";
 
 const ShipSelectionCell = ({ field, coordinates, board, render }) => {
-
   const calculateNewPosition = (alignment, length) => {
     let pos = [];
     if (alignment === "horizontal") {
@@ -36,13 +36,12 @@ const ShipSelectionCell = ({ field, coordinates, board, render }) => {
         item.ship.getAlignment(),
         item.ship.getLength()
       );
-        if(item.shipIsOnField !== undefined){
-          board.replaceShip(item.ship, pos)
-          console.log("replace")
-        } else {
-          item.ship.setPosition(pos);
-          board.placeShip(item.ship);
-        }
+      if (item.shipIsOnField !== undefined) {
+        board.replaceShip(item.ship, pos);
+      } else {
+        item.ship.setPosition(pos);
+        board.placeShip(item.ship);
+      }
 
       render();
       if (item.changeNumber) {
@@ -76,23 +75,23 @@ const ShipSelectionCell = ({ field, coordinates, board, render }) => {
     let clickedShip = board.getField(coordinates).hasShip;
     clickedShip.rotate(board);
     board.replaceShip(clickedShip, clickedShip.getPosition());
-    render()
+    render();
   };
 
   return (
-    <div
+    <CellContainer
       ref={ref}
-      className={`cell ${field.hasShip ? "shipSelectionCell" : "waterCell"}${
-        isOver ? "isOver" : ""
-      }`}
+      hasShip={field.hasShip}
+      hasWater={!field.hasShip}
+      isOver={isOver}
       style={{
         opacity: isDragging ? 0.5 : 1,
         backgroundColor: !canDrop ? "" : isOver ? "green" : "",
       }}
       onClick={field.hasShip ? rotateShip : undefined}
     >
-      {isNearbyField(coordinates, board) && <div>x</div>}
-    </div>
+      {isNearbyField(coordinates, board) && <div>•</div>}
+    </CellContainer>
   );
 };
 

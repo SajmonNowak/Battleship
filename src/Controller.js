@@ -12,7 +12,7 @@ const ACTIONS = {
   RESTART_GAME: "Restart game",
   CHANGE_PHASE: "Change game phase",
   SET_WINNER: "set the winner of the game",
-  SET_TURN: "set who can play this turn"
+  SET_TURN: "set who can play this turn",
 };
 
 const reducer = (state, action) => {
@@ -67,8 +67,9 @@ const reducer = (state, action) => {
     case ACTIONS.SET_TURN: {
       return {
         ...state,
-        turn: payload
-      }
+        turn: payload,
+        message: "-- " + payload + "'s turn --",
+      };
     }
     default:
       return state;
@@ -79,7 +80,7 @@ const Controller = ({ children }) => {
   const initialState = {
     phase: "Selection",
     players: {},
-    turn:"player",
+    turn: "player",
     message: "",
     winner: "",
   };

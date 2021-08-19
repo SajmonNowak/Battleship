@@ -8,9 +8,9 @@ import ShipFactory from "../factories/ShipFactory";
 import DNDProvider from "./DNDProvider";
 import { store, ACTIONS } from "../Controller";
 import createRandomShips from "../helper/createRandomShips";
-
+import SelectionInfo from "./SelectionInfo";
 const ShipSelectionWindow = () => {
-  const { state, dispatch } = useContext(store);
+  const { dispatch } = useContext(store);
   const [selectionBoard, setSelectionBoard] = useState(GameboardFactory());
   const [helpState, setHelpState] = useState(0);
   const [active, setActive] = useState(false);
@@ -44,7 +44,12 @@ const ShipSelectionWindow = () => {
       }
 
       return (
-        <Ship key={index} shipArray={shipArray} shipData={shipType}></Ship>
+        <Ship
+          key={index}
+          shipArray={shipArray}
+          shipData={shipType}
+          Gameboard={selectionBoard}
+        ></Ship>
       );
     });
   };
@@ -72,15 +77,22 @@ const ShipSelectionWindow = () => {
       <ShipSelectionUI>
         <div className="mainUI">
           <div className="gameBoard">{createSelectionGameboard()}</div>
-          <div className="shipList">{createShipList()}</div>
+          <div>
+            <div className="shipList">{createShipList()}</div>
+            <SelectionInfo />
+          </div>
         </div>
-        <button onClick={assignRandomShips}>Random</button>
-        <button
-          onClick={active ? startGame : undefined}
-          className={`playButton ${active ? "active" : "deactivated"}`}
-        >
-          Play
-        </button>
+        <div className="buttonContainer">
+          <button className=" button randomButton" onClick={assignRandomShips}>
+            Random
+          </button>
+          <button
+            onClick={active ? startGame : undefined}
+            className={`button playButton ${active ? "active" : "deactivated"}`}
+          >
+            Play
+          </button>
+        </div>
       </ShipSelectionUI>
     </DNDProvider>
   );

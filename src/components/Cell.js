@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import playerTurn from "../helper/playerTurn";
 import { store, ACTIONS } from "../Controller";
+import { CellContainer } from "./style/CellContainer";
+import flame from "../imgs/flame.png";
 
 const Cell = ({ field, coordinates, belongsTo }) => {
   const [shot, setShot] = useState(false);
@@ -16,25 +18,33 @@ const Cell = ({ field, coordinates, belongsTo }) => {
     }
   };
 
+  const generateFlame = () => {
+    return <img className="flame" alt="X" src={flame}></img>;
+  };
+  const generateWater = () => {
+    return <div className="missed">•</div>;
+  };
+
   if (belongsTo === "Human") {
     return (
-      <div className={`cell ${field.hasShip ? "shipCell" : "waterCell"}`}>
+      <CellContainer hasShip={field.hasShip} hasWater>
         {field.isHitted && (
-          <div className="shotCell">{field.hasShip ? "X" : "•"}</div>
+          <div>{field.hasShip ? generateFlame() : generateWater()}</div>
         )}
-      </div>
+      </CellContainer>
     );
   } else {
     return (
-      <div onClick={state.turn === "player" ? handleShot : undefined} className={`cell`}>
+      <CellContainer
+        hasShip={field.isHitted && field.hasShip}
+        hasWater={!field.hasShip && field.isHitted}
+        onClick={state.turn === "player" ? handleShot : undefined}
+        className={`cell`}
+      >
         {field.isHitted && (
-          <div
-            className={`${field.hasShip ? "shipCell" : "waterCell"} shotCell`}
-          >
-            {field.hasShip ? "X" : "•"}
-          </div>
+          <div>{field.hasShip ? generateFlame() : generateWater()}</div>
         )}
-      </div>
+      </CellContainer>
     );
   }
 };

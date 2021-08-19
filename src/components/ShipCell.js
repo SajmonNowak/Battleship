@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import { CellContainer } from "./style/CellContainer";
 
 const ShipCell = () => {
-    return (
-        <div className="shipSelectionCell"></div>
-    )
-}
+  return <CellContainer hasShip></CellContainer>;
+};
 
-export default ShipCell
+export default ShipCell;

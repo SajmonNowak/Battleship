@@ -1,5 +1,5 @@
 const GameboardFactory = (ships) => {
-  let board = []
+  let board = [];
   let shipsOnBoard = [];
 
   const placeShips = (shipArray) => {
@@ -13,15 +13,12 @@ const GameboardFactory = (ships) => {
   };
 
   const replaceShip = (ship, newPos) => {
-    let shipToReplace = getShips().find((e) => ship.getId() === e.getId())
+    let shipToReplace = getShips().find((e) => ship.getId() === e.getId());
 
-    shipToReplace.getPosition().forEach((pos) => board[pos].hasShip = false)
-    ship.setPosition(newPos)
+    shipToReplace.getPosition().forEach((pos) => (board[pos].hasShip = false));
+    ship.setPosition(newPos);
     newPos.forEach((coordinate) => (board[coordinate].hasShip = ship));
-
-  }
-
-  
+  };
 
   const init = () => {
     let newBoard = [];
@@ -33,7 +30,6 @@ const GameboardFactory = (ships) => {
 
   init();
 
-  
   let shipCount = typeof ships === "undefined" ? 0 : ships.length;
   let shipsDestroyed = 0;
   if (shipCount > 0) {
@@ -58,17 +54,20 @@ const GameboardFactory = (ships) => {
     board[coordinate].isHitted = true;
     if (ship) {
       ship.hit(coordinate);
-      if(ship.isSunk()){
-        shipsDestroyed ++
+      if (ship.isSunk()) {
+        shipsDestroyed++;
       }
     }
   };
-
 
   const checkIfAllDestroyed = () => {
     if (shipCount === shipsDestroyed) {
       return true;
     }
+  };
+
+  const getShipCount = () => {
+    return shipCount - shipsDestroyed;
   };
 
   return {
@@ -79,7 +78,8 @@ const GameboardFactory = (ships) => {
     getShips,
     receiveAttack,
     checkIfAllDestroyed,
-    replaceShip
+    replaceShip,
+    getShipCount,
   };
 };
 

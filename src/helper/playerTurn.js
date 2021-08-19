@@ -18,7 +18,7 @@ const checkIfFatal = (board, coordinate, dispatch) => {
   if (board.getField(coordinate).hasShip.isSunk()) {
     dispatch({
       type: ACTIONS.SET_MESSAGE,
-      payload: "You destroyed enemy's Ship",
+      payload: "Enemy's ship destroyed",
     });
     revealNearbyCells(board, coordinate);
   }

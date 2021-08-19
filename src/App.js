@@ -1,11 +1,16 @@
 import GameWindow from "./components/GameWindow";
+import Header from "./components/Header";
+import { AppContainer } from "./components/style/AppContainer";
 import Controller from "./Controller";
 
 function App() {
   return (
-    <Controller>
+    <AppContainer>
+      <Controller>
+        <Header />
         <GameWindow />
-    </Controller>
+      </Controller>
+    </AppContainer>
   );
 }
 

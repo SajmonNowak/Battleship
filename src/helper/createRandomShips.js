@@ -12,11 +12,12 @@ const createRandomShips = () => {
       const createdShip = ShipFactory(
         ship.name,
         createRandomPos(ship.length, board),
-        ship.length
+        ship.length,
+        Math.random() * 1000
       );
       board.placeShip(createdShip);
-      if(randomFloat > 0.5){
-          createdShip.rotate(board)
+      if (randomFloat > 0.5) {
+        createdShip.rotate(board);
       }
       shipArray.push(createdShip);
     }
