@@ -10,8 +10,8 @@ const SelectionInfo = () => {
         <img src={lightbulb} alt=""></img>
       </div>
       <div>
-        <p> Drag&Drop the Ships on the right Position</p>
-        <p>Click on the Ship when placed to rotate</p>
+        <p> Drag&Drop the ships on the right position</p>
+        <p>Click on the ship when placed to rotate</p>
       </div>
     </InfoContainer>
   );
