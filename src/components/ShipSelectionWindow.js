@@ -9,13 +9,17 @@ import DNDProvider from "./DNDProvider";
 import { store, ACTIONS } from "../Controller";
 import createRandomShips from "../helper/createRandomShips";
 import SelectionInfo from "./SelectionInfo";
+
+let changeSelectedNumber = undefined;
+
 const ShipSelectionWindow = () => {
   const { dispatch } = useContext(store);
   const [selectionBoard, setSelectionBoard] = useState(GameboardFactory());
   const [helpState, setHelpState] = useState(0);
   const [active, setActive] = useState(false);
+  const [selectedShip, setSelectedShip] = useState(undefined);
 
-  const render = (newBoard) => {
+  const render = () => {
     setHelpState(helpState + 1);
   };
 
@@ -28,9 +32,18 @@ const ShipSelectionWindow = () => {
           coordinates={index}
           board={selectionBoard}
           render={render}
+          selectedShip={selectedShip}
+          setSelectedShip={setSelectedShip}
+          changeSelectedNumber={changeSelectedNumber}
         />
       );
     });
+  };
+
+  const selectToPosition = (ship, changeNumber) => {
+    setSelectedShip(ship);
+    changeSelectedNumber = changeNumber;
+    setHelpState(helpState + 1);
   };
 
   const createShipList = () => {
@@ -49,6 +62,7 @@ const ShipSelectionWindow = () => {
           shipArray={shipArray}
           shipData={shipType}
           Gameboard={selectionBoard}
+          selectToPosition={selectToPosition}
         ></Ship>
       );
     });

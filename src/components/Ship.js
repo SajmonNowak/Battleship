@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import ShipCell from "./ShipCell";
 import { useDrag } from "react-dnd";
 
-const Ship = ({ shipArray, shipData, Gameboard }) => {
+const Ship = ({ shipArray, shipData, Gameboard, selectToPosition }) => {
   const [number, setNumber] = useState(shipData.amount);
 
   const changeNumber = () => {
     setNumber(number - 1);
   };
-
   const [{ isDragging }, drag] = useDrag({
     type: "ship",
     item: {
@@ -41,6 +40,11 @@ const Ship = ({ shipArray, shipData, Gameboard }) => {
       <div>{number}</div>
       <div
         ref={refObject}
+        onClick={
+          number > 0
+            ? () => selectToPosition(shipArray[number - 1], changeNumber)
+            : undefined
+        }
         style={{
           opacity: isDragging ? 0.5 : 1,
           fontSize: 25,

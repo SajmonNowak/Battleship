@@ -5,7 +5,15 @@ import isNearbyField from "../helper/isNearbyField";
 import { useDrag } from "react-dnd";
 import { CellContainer } from "./style/CellContainer";
 
-const ShipSelectionCell = ({ field, coordinates, board, render }) => {
+const ShipSelectionCell = ({
+  field,
+  coordinates,
+  board,
+  render,
+  selectedShip,
+  changeSelectedNumber,
+  setSelectedShip,
+}) => {
   const calculateNewPosition = (alignment, length) => {
     let pos = [];
     if (alignment === "horizontal") {
@@ -78,6 +86,23 @@ const ShipSelectionCell = ({ field, coordinates, board, render }) => {
     render();
   };
 
+  const placeShipOnWater = () => {
+    let pos = calculateNewPosition(
+      selectedShip.getAlignment(),
+      selectedShip.getLength()
+    );
+
+    if (
+      isValidPosition(pos, board, selectedShip.getAlignment(), selectedShip)
+    ) {
+      selectedShip.setPosition(pos);
+      board.placeShip(selectedShip);
+      changeSelectedNumber();
+      setSelectedShip(undefined);
+      render();
+    }
+  };
+
   return (
     <CellContainer
       ref={ref}
@@ -88,7 +113,13 @@ const ShipSelectionCell = ({ field, coordinates, board, render }) => {
         opacity: isDragging ? 0.5 : 1,
         backgroundColor: !canDrop ? "" : isOver ? "green" : "",
       }}
-      onClick={field.hasShip ? rotateShip : undefined}
+      onClick={
+        field.hasShip
+          ? rotateShip
+          : selectedShip !== undefined
+          ? placeShipOnWater
+          : undefined
+      }
     >
       {isNearbyField(coordinates, board) && <div>•</div>}
     </CellContainer>

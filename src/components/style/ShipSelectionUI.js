@@ -7,7 +7,7 @@ const ShipSelectionUI = styled.div`
 
   .shipList {
     margin-left: 50px;
-    max-width: 200px;
+    max-width: 300px;
   }
 
   .ship {
@@ -67,18 +67,18 @@ const ShipSelectionUI = styled.div`
     }
   }
 
-  @media (max-width: 660px){
-    .mainUI{
+  @media (max-width: 660px) {
+    .mainUI {
       flex-direction: column;
     }
 
-    .playButton{
+    .playButton {
       width: 200px;
       margin-left: 0px;
-      margin-top: 10px; 
+      margin-top: 10px;
     }
 
-    .randomButton{
+    .randomButton {
       width: 200px;
     }
 

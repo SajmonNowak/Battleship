@@ -16,12 +16,12 @@ const ACTIONS = {
 };
 
 const getTurnString = (turn) => {
-  if (turn === "ai"){
-    return "Computer's"
+  if (turn === "ai") {
+    return "Computer's";
   } else {
-    return "Your"
+    return "Your";
   }
-}
+};
 
 const reducer = (state, action) => {
   const { type, payload } = action;
