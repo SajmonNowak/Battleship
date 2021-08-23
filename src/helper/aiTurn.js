@@ -7,9 +7,9 @@ const aiTurn = (player, ai, dispatch) => {
   const Gameboard = player.getGameboard();
 
   if (hittedShipOnBoard(Gameboard)) {
-    hitNaerbyFieldOfShip(Gameboard, dispatch);
+    hitNaerbyFieldOfShip(Gameboard);
   } else {
-    hitRandomPosition(Gameboard, dispatch);
+    hitRandomPosition(Gameboard);
   }
 
   if (checkIfWin(Gameboard, dispatch)) {
@@ -31,7 +31,7 @@ const hittedShipOnBoard = (Gameboard) => {
   }
 };
 
-const hitRandomPosition = (Gameboard, dispatch) => {
+const hitRandomPosition = (Gameboard) => {
   let unHittedFields = [];
   Gameboard.getBoard().forEach((field, index) => {
     if (field.isHitted === false) {
@@ -40,7 +40,7 @@ const hitRandomPosition = (Gameboard, dispatch) => {
   });
   const attackCoordinate = getRandomPosition(Gameboard, unHittedFields);
   Gameboard.receiveAttack(attackCoordinate);
-  updateHitted(Gameboard, attackCoordinate, dispatch);
+  updateHitted(Gameboard, attackCoordinate);
 };
 
 const getRandomPosition = (Gameboard, unHittedFields) => {
@@ -77,45 +77,40 @@ const isLonelyField = (Gameboard, unHittedFields, pos) => {
   return false;
 };
 
-const hitNaerbyFieldOfShip = (Gameboard, dispatch) => {
+const hitNaerbyFieldOfShip = (Gameboard) => {
   const hittedShip = hittedShipOnBoard(Gameboard);
   const hittedPositions = hittedShip.getHits().sort((a, b) => a - b);
   const alignment = hittedShip.getAlignment();
   if (alignment === "horizontal") {
-    attackHorizontally(Gameboard, hittedPositions, alignment, dispatch);
+    attackHorizontally(Gameboard, hittedPositions, alignment);
   } else {
-    attackVertically(Gameboard, hittedPositions, alignment, dispatch);
+    attackVertically(Gameboard, hittedPositions, alignment);
   }
-  handlePlayerShipDestroyed(Gameboard, hittedShip, dispatch);
+  handlePlayerShipDestroyed(Gameboard, hittedShip);
 };
 
-const attackHorizontally = (
-  Gameboard,
-  hittedPositions,
-  alignment,
-  dispatch
-) => {
+const attackHorizontally = (Gameboard, hittedPositions, alignment) => {
   const posBeforeHit = hittedPositions[0] - 1;
   const posAfterHit = hittedPositions[hittedPositions.length - 1] + 1;
   if (isValidAttack(posBeforeHit, Gameboard, alignment)) {
     Gameboard.receiveAttack(posBeforeHit);
-    updateHitted(Gameboard, posBeforeHit, dispatch);
+    updateHitted(Gameboard, posBeforeHit);
   } else {
     Gameboard.receiveAttack(posAfterHit);
-    updateHitted(Gameboard, posAfterHit, dispatch);
+    updateHitted(Gameboard, posAfterHit);
   }
 };
 
-const attackVertically = (Gameboard, hittedPositions, alignment, dispatch) => {
+const attackVertically = (Gameboard, hittedPositions, alignment) => {
   const posBeforeHit = hittedPositions[0] - 10;
   const posAfterHit = hittedPositions[hittedPositions.length - 1] + 10;
 
   if (isValidAttack(posBeforeHit, Gameboard, alignment)) {
     Gameboard.receiveAttack(posBeforeHit);
-    updateHitted(Gameboard, posBeforeHit, dispatch);
+    updateHitted(Gameboard, posBeforeHit);
   } else {
     Gameboard.receiveAttack(posAfterHit);
-    updateHitted(Gameboard, posAfterHit, dispatch);
+    updateHitted(Gameboard, posAfterHit);
   }
 };
 
@@ -151,13 +146,9 @@ const inBreak = (coordinate, alignment) => {
   return false;
 };
 
-const handlePlayerShipDestroyed = (Gameboard, ship, dispatch) => {
+const handlePlayerShipDestroyed = (Gameboard, ship) => {
   if (ship.isSunk()) {
     revealNearbyCells(Gameboard, ship.getPosition()[0]);
-    dispatch({
-      type: ACTIONS.SET_MESSAGE,
-      payload: "Our Ship is no more Captain!",
-    });
   }
 };
 
@@ -166,19 +157,11 @@ const revealNearbyCells = (board, coordinate) => {
   ship.getNearbyCoordinates().forEach((e) => board.receiveAttack(e));
 };
 
-const updateHitted = (Gameboard, field, dispatch) => {
+const updateHitted = (Gameboard, field) => {
   if (Gameboard.getField(field).hasShip) {
     didHit = true;
-    dispatch({
-      type: ACTIONS.SET_MESSAGE,
-      payload: "Enemy hitted your Ship!",
-    });
   } else {
     didHit = false;
-    dispatch({
-      type: ACTIONS.SET_MESSAGE,
-      payload: "Enemy missed! This is our chance Captain!",
-    });
   }
 };
 

@@ -8,7 +8,6 @@ export const Console = styled.div`
   color: #f4a261;
   font-size: 32px;
   font-weight: bold;
-  text-transform: capitalize;
   border-top: 4px solid black;
   border-bottom: 4px solid black;
   margin-top: 50px;

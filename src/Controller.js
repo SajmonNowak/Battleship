@@ -15,6 +15,14 @@ const ACTIONS = {
   SET_TURN: "set who can play this turn",
 };
 
+const getTurnString = (turn) => {
+  if (turn === "ai"){
+    return "Computer's"
+  } else {
+    return "Your"
+  }
+}
+
 const reducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
@@ -68,7 +76,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         turn: payload,
-        message: "-- " + payload + "'s turn --",
+        message: "-- " + getTurnString(payload) + " turn --",
       };
     }
     default:

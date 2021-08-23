@@ -6,25 +6,21 @@ const playerTurn = (player, ai, coordinate, dispatch) => {
   Gameboard.receiveAttack(coordinate);
 
   if (Gameboard.getField(coordinate).hasShip) {
-    checkIfFatal(Gameboard, coordinate, dispatch);
-    checkIfWin(Gameboard, player, dispatch);
+    checkIfFatal(Gameboard, coordinate);
+    checkIfWin(Gameboard, dispatch);
     nextTurn("player", player, ai, dispatch);
   } else {
     nextTurn("ai", player, ai, dispatch);
   }
 };
 
-const checkIfFatal = (board, coordinate, dispatch) => {
+const checkIfFatal = (board, coordinate) => {
   if (board.getField(coordinate).hasShip.isSunk()) {
-    dispatch({
-      type: ACTIONS.SET_MESSAGE,
-      payload: "Enemy's ship destroyed",
-    });
     revealNearbyCells(board, coordinate);
   }
 };
 
-const checkIfWin = (board, player, dispatch) => {
+const checkIfWin = (board, dispatch) => {
   if (board.checkIfAllDestroyed()) {
     dispatch({
       type: ACTIONS.CHANGE_PHASE,
