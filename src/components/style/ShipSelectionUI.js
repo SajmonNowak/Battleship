@@ -7,6 +7,7 @@ const ShipSelectionUI = styled.div`
 
   .shipList {
     margin-left: 50px;
+    max-width: 200px;
   }
 
   .ship {
@@ -63,6 +64,26 @@ const ShipSelectionUI = styled.div`
 
     &:hover {
       background-color: none;
+    }
+  }
+
+  @media (max-width: 660px){
+    .mainUI{
+      flex-direction: column;
+    }
+
+    .playButton{
+      width: 200px;
+      margin-left: 0px;
+      margin-top: 10px; 
+    }
+
+    .randomButton{
+      width: 200px;
+    }
+
+    .buttonContainer {
+      flex-direction: column;
     }
   }
 `;

@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const GameContainer = styled.div`
   position: relative;
   padding: 50px;
+  background-color: #006494;
 
   .gameboardsContainer {
     display: flex;
@@ -37,6 +38,18 @@ export const GameContainer = styled.div`
     .gameBoard {
       width: 250px;
       height: 250px;
+    }
+  }
+
+  @media (max-width: 650px) {
+
+    .gameboardsContainer {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .gameBoard {
+      margin-bottom: 50px;
     }
   }
 `;

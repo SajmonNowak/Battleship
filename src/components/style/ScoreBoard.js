@@ -7,4 +7,8 @@ export const ScoreBoard = styled.div`
   color: #f4a261;
   text-align: center;
   font-weight: bold;
+
+  @media (max-width: 650px){
+    font-size: 16px;
+  }
 `;

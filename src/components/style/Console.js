@@ -11,5 +11,10 @@ export const Console = styled.div`
   text-transform: capitalize;
   border-top: 4px solid black;
   border-bottom: 4px solid black;
-  margin-top: 30px;
+  margin-top: 50px;
+
+  @media (max-width: 650px){
+    font-size: 24px;
+    margin-top: 20px;
+  }
 `;

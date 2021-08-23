@@ -19,6 +19,10 @@ const GameoverModal = styled.div`
     width: 200px;
     height: 50px;
   }
+
+  @media (max-width: 650px){
+    font-size: 26px;
+  }
 `;
 
 export default GameoverModal;

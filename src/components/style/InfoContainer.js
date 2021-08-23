@@ -12,4 +12,13 @@ export const InfoContainer = styled.div`
     height: 50px;
     margin-right: 10px;
   }
+
+   @media (max-width:1140px){
+     font-size: 12px;
+
+     img {
+       width: 25px;
+       height: 25px;
+     }
+   }
 `;
